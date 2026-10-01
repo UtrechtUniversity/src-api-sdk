@@ -10,6 +10,7 @@ from researchcloud.utils.end_time import resolve_workspace_end_time, validate_wo
 from researchcloud.services.workspaces import (
     _is_workspace_failure_status,
     _is_workspace_ready_status,
+    is_workspace_terminal_status,
 )
 from researchcloud.utils.flavours import _parse_size_flavour, match_size_flavour
 
@@ -254,3 +255,10 @@ class TestWorkspaceStatusClassifiers:
         assert _is_workspace_failure_status("failed")
         assert _is_workspace_failure_status("unhealthy")
         assert not _is_workspace_failure_status("updating")
+
+    def test_terminal_statuses(self):
+        assert is_workspace_terminal_status("deleted")
+        assert is_workspace_terminal_status("deleting")
+        assert is_workspace_terminal_status("failed")
+        assert not is_workspace_terminal_status("running")
+        assert not is_workspace_terminal_status("updating")

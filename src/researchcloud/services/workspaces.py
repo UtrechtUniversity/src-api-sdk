@@ -27,8 +27,12 @@ def _is_workspace_ready_status(status: str | None) -> bool:
     return status in {"available", "running", "in-use", "paused", "full"}
 
 
-def _is_workspace_failure_status(status: str | None) -> bool:
+def is_workspace_terminal_status(status: str | None) -> bool:
     return status in {"failed", "unhealthy", "deleted", "deleting", "unknown", "unaccounted"}
+
+
+def _is_workspace_failure_status(status: str | None) -> bool:
+    return is_workspace_terminal_status(status)
 
 
 @dataclass

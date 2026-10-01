@@ -6,6 +6,7 @@ from .workspaces import (
     WORKSPACE_CREATE_TIMEOUT_SECONDS,
     WorkspaceCreationPlan,
     WorkspacesService,
+    is_workspace_terminal_status,
     _is_workspace_failure_status,
     _is_workspace_ready_status,
 )
@@ -18,6 +19,7 @@ __all__ = [
     "WORKSPACE_CREATE_TIMEOUT_SECONDS",
     "WorkspaceCreationPlan",
     "WorkspacesService",
+    "is_workspace_terminal_status",
     "_is_workspace_failure_status",
     "_is_workspace_ready_status",
 ]
