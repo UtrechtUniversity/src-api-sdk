@@ -64,7 +64,7 @@ class ResearchCloudClient:
         env: Mapping[str, str] | None = None,
         session: aiohttp.ClientSession | None = None,
     ) -> ResearchCloudClient:
-        source = os.environ if env is None else env
+        source = os.environ if env is None else os.environ | env
         return cls(
             token=source.get("RESEARCH_CLOUD_TOKEN"),
             catalog_base_url=source.get("CATALOG_BASE_URL", DEFAULT_CATALOG_BASE_URL),

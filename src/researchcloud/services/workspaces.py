@@ -58,8 +58,8 @@ class WorkspacesService:
 
     async def list_application(
         self,
-        co_id: str,
-        catalog_item_name: str,
+        co_id: str = "",
+        catalog_item_name: str = "",
         by_owner: bool = False,
         application_type: str = "Compute",
         workspace_name: str | None = None,
