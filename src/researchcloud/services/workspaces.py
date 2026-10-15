@@ -61,17 +61,19 @@ class WorkspacesService:
         co_id: str = "",
         catalog_item_name: str = "",
         by_owner: bool = False,
+        deleted: bool = False,
         application_type: str = "Compute",
         workspace_name: str | None = None,
         status: str | Sequence[str] | None = None,
         attribute_filters: Mapping[str, object] | None = None,
     ) -> list:
         params: dict[str, object] = {
-            "co_id": co_id,
             "application_type": application_type,
-            "deleted": "false",
+            "deleted": str(deleted).lower(),
             "limit": 100,
         }
+        if co_id:
+            params["co_id"] = co_id
         if by_owner:
             params["by_owner"] = "true"
         normalized_statuses = _normalize_status_filter(status)
