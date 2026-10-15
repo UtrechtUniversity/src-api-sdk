@@ -14,6 +14,9 @@ dependencies = [
   "python-dotenv",
 ]
 
+[project.optional-dependencies]
+test = ["ruff", "mypy", "pytest"]
+
 [project.scripts]
 researchcloud = "researchcloud.cli:main"
 
