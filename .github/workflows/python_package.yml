@@ -22,7 +22,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13"]
+        python-version: ["3.11", "3.12", "3.13"]
 
     steps:
     - uses: actions/checkout@v3
@@ -38,15 +38,9 @@ jobs:
     - name: Lint with Ruff
       run: ruff check src tests
     - name: Check types with MyPy
-      run: mypy ibridgescontrib/uutemplate --namespace-packages --explicit-package-bases
+      run: mypy src/ --namespace-packages --explicit-package-bases
     - name: Test with pytest
       run: |
         python -m pip install pytest-cov
         pytest --cov=. --cov-report=xml
-    - name: Upload coverage report
-      if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
-      uses: actions/upload-code-coverage@v1
-      with:
-        file: coverage.xml
-        language: Python
-        label: code-coverage/pytest
+        coverage report
