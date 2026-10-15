@@ -1,17 +1,17 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
-
 import logging
+from datetime import UTC, datetime, timedelta
+
 import pytest
 
 from researchcloud.builders import build_create_payload
-from researchcloud.utils.end_time import resolve_workspace_end_time, validate_workspace_end_time
 from researchcloud.services.workspaces import (
     _is_workspace_failure_status,
     _is_workspace_ready_status,
     is_workspace_terminal_status,
 )
+from researchcloud.utils.end_time import resolve_workspace_end_time, validate_workspace_end_time
 from researchcloud.utils.flavours import _parse_size_flavour, match_size_flavour
 
 
@@ -233,12 +233,12 @@ class TestResolveWorkspaceEndTime:
         assert resolve_workspace_end_time("2099-01-01T00:00:00Z") == "2099-01-01T00:00:00Z"
 
     def test_defaults_to_three_days_in_future(self):
-        now_before = datetime.now(timezone.utc)
+        now_before = datetime.now(UTC)
         resolved = resolve_workspace_end_time(None)
-        now_after = datetime.now(timezone.utc)
+        now_after = datetime.now(UTC)
 
         validate_workspace_end_time(resolved)
-        parsed = datetime.fromisoformat(resolved.replace("Z", "+00:00"))
+        parsed = datetime.fromisoformat(resolved)
 
         min_expected = now_before + timedelta(days=3) - timedelta(minutes=1)
         max_expected = now_after + timedelta(days=3) + timedelta(minutes=1)

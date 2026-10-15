@@ -1,0 +1,30 @@
+Metadata-Version: 2.4
+Name: researchcloud-api
+Version: 0.1.0
+Summary: Python SDK and CLI for the SURF ResearchCloud API
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+License-File: LICENSE
+Requires-Dist: aiohttp
+Requires-Dist: PyYAML
+Requires-Dist: python-dotenv
+Provides-Extra: test
+Requires-Dist: ruff; extra == "test"
+Requires-Dist: mypy; extra == "test"
+Requires-Dist: pytest; extra == "test"
+Dynamic: license-file
+
+A simple Python SDK and CLI for SURF ResearchCloud.
+
+- Import the package from [src/researchcloud/](/Users/3060845/Code/uu/src/api_explorations/src/researchcloud).
+- Use [cli.py](/Users/3060845/Code/uu/src/api_explorations/src/researchcloud/cli.py) as the CLI module, or the installed `researchcloud` command.
+- Install as a package via [pyproject.toml](/Users/3060845/Code/uu/src/api_explorations/pyproject.toml).
+- Run the linter with `.venv/bin/ruff check .`.
+
+For `get-application-offerings`, omitting `--type` means that all application
+types (workspace, network, ...) are included. Use `--type` when you want to restrict the results to one
+application type.
+
+Use `get-workspace-status --id <id>` to quickly print a workspace's current
+status, and `pause-workspace --id <id>` / `resume-workspace --id <id>` to
+pause or resume a workspace. All three support `--dry-run`.

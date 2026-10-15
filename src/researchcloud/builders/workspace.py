@@ -7,7 +7,7 @@ def _to_meta_ref(value: str | dict, default_type: str) -> dict[str, str]:
             raise ValueError(f"Invalid empty {default_type} reference.")
         return {"id": value, "name": value, "type": default_type}
     if not isinstance(value, dict):
-        raise ValueError(f"Invalid {default_type} reference {value!r}; expected string id or object.")
+        raise TypeError(f"Invalid {default_type} reference {value!r}; expected string id or object.")
 
     resource_id = value.get("id")
     if not isinstance(resource_id, str) or not resource_id:

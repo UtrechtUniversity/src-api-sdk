@@ -6,8 +6,8 @@ from unittest.mock import AsyncMock, MagicMock
 import pytest
 
 from researchcloud.services.workspaces import WorkspaceCreationPlan, WorkspacesService
-from researchcloud.utils.naming import generate_host_name, generate_resource_name
 from researchcloud.utils.flavours import validate_size_flavour_selection
+from researchcloud.utils.naming import generate_host_name, generate_resource_name
 
 
 def _run(coro):

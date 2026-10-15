@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
+from datetime import UTC, datetime, timedelta
 
 DEFAULT_WORKSPACE_ENDTIME = timedelta(days=3)
 
@@ -20,7 +20,7 @@ def validate_workspace_end_time(end_time: str) -> None:
     if parsed.tzinfo is None:
         raise ValueError("end_time must include a timezone (use trailing 'Z' for UTC).")
 
-    now_utc = datetime.now(timezone.utc)
+    now_utc = datetime.now(UTC)
     if parsed <= now_utc:
         raise ValueError(
             f"end_time must be in the future. Current UTC time is "
@@ -32,4 +32,4 @@ def resolve_workspace_end_time(end_time: str | None) -> str:
     """Return end_time if supplied, otherwise a default of DEFAULT_WORKSPACE_ENDTIME from now."""
     if end_time and end_time.strip():
         return end_time.strip()
-    return (datetime.now(timezone.utc) + DEFAULT_WORKSPACE_ENDTIME).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return (datetime.now(UTC) + DEFAULT_WORKSPACE_ENDTIME).strftime("%Y-%m-%dT%H:%M:%SZ")

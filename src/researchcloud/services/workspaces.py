@@ -56,7 +56,7 @@ class WorkspacesService:
         self._client = client
 
 
-    async def list(
+    async def list_application(
         self,
         co_id: str,
         catalog_item_name: str,
@@ -108,7 +108,7 @@ class WorkspacesService:
         cloud_name: str = DEFAULT_CLOUD_NAME,
         by_owner: bool = False,
     ) -> list:
-        networks = await self.list(
+        networks = await self.list_application(
             co_id=co_id,
             catalog_item_name="",
             by_owner=by_owner,
@@ -450,3 +450,10 @@ class WorkspacesService:
 
             await asyncio.sleep(poll_interval)
             elapsed += poll_interval
+
+    async def list(
+        self,
+        *args,
+        **kwargs,
+    ) -> list:
+        return await self.list_application(*args, **kwargs)

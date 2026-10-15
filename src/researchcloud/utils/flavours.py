@@ -3,7 +3,6 @@ from __future__ import annotations
 import logging
 import re
 
-
 logger = logging.getLogger(__name__)
 
 
@@ -64,11 +63,10 @@ def match_size_flavour(
         raise ValueError("No size flavours available in this offering.")
 
     if gpu_type is not None:
-        gpu_type_upper = gpu_type.upper()
         typed = [
             flavour
             for flavour in size_flavours
-            if (_parse_size_flavour(flavour["name"]).get("gpu_type") or "").upper() == gpu_type_upper
+            if str(_parse_size_flavour(flavour["name"]).get("gpu_type") or "").upper() == gpu_type.upper()
         ]
         if not typed:
             available_types = sorted({
@@ -82,6 +80,8 @@ def match_size_flavour(
 
     key = "cpu" if num_cpu is not None else "gpu"
     requested = num_cpu if num_cpu is not None else num_gpu
+    if not requested:
+        raise ValueError(f"Requested {key} count must be greater than zero, and not None.")
 
     candidates: list[tuple[int, dict]] = []
     for flavour in size_flavours:

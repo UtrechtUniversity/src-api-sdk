@@ -1,0 +1,8 @@
+aiohttp
+PyYAML
+python-dotenv
+
+[test]
+ruff
+mypy
+pytest

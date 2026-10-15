@@ -13,7 +13,7 @@ def _normalize_status_filter(status: str | Sequence[str] | None) -> tuple[str, .
     normalized_statuses: list[str] = []
     for item in status:
         if not isinstance(item, str):
-            raise ValueError(f"Workspace status filters must be strings, got {type(item).__name__}.")
+            raise TypeError(f"Workspace status filters must be strings, got {type(item).__name__}.")
         normalized = item.strip()
         if normalized:
             normalized_statuses.append(normalized)

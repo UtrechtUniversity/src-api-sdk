@@ -5,6 +5,7 @@ import logging
 import os
 import random
 from collections.abc import Mapping, Sequence
+from typing import Any, Self
 from urllib.parse import urljoin
 
 import aiohttp
@@ -17,7 +18,6 @@ from researchcloud.config import (
 )
 from researchcloud.errors import ApiError, TransportError
 from researchcloud.services import CatalogService, UsersService, WalletsService, WorkspacesService
-
 
 logger = logging.getLogger(__name__)
 
@@ -37,7 +37,7 @@ class ResearchCloudClient:
         user_base_url: str = DEFAULT_USER_BASE_URL,
         wallet_base_url: str = DEFAULT_WALLET_BASE_URL,
         workspace_base_url: str = DEFAULT_WORKSPACE_BASE_URL,
-        session: aiohttp.ClientSession | object | None = None,
+        session: aiohttp.ClientSession | None = None,
         max_retries: int = DEFAULT_MAX_RETRIES,
         backoff_base_seconds: float = DEFAULT_BACKOFF_BASE_SECONDS,
         backoff_max_seconds: float = DEFAULT_BACKOFF_MAX_SECONDS,
@@ -62,7 +62,7 @@ class ResearchCloudClient:
         cls,
         *,
         env: Mapping[str, str] | None = None,
-        session: aiohttp.ClientSession | object | None = None,
+        session: aiohttp.ClientSession | None = None,
     ) -> ResearchCloudClient:
         source = os.environ if env is None else env
         return cls(
@@ -74,7 +74,7 @@ class ResearchCloudClient:
             session=session,
         )
 
-    async def __aenter__(self) -> ResearchCloudClient:
+    async def __aenter__(self) -> Self:
         await self._ensure_session()
         return self
 
@@ -122,7 +122,7 @@ class ResearchCloudClient:
     def get_expected_optional_parameter_keys(offering: Mapping[str, object]) -> tuple[str, ...]:
         raw_optional_parameters = offering.get("optional_parameters")
         if isinstance(raw_optional_parameters, Mapping):
-            return tuple(key for key in raw_optional_parameters.keys() if isinstance(key, str))
+            return tuple(key for key in raw_optional_parameters if isinstance(key, str))
         if isinstance(raw_optional_parameters, Sequence) and not isinstance(
             raw_optional_parameters, (str, bytes, bytearray)
         ):
@@ -199,7 +199,7 @@ class ResearchCloudClient:
         method: str,
         service: str,
         path: str = "",
-        params: Mapping[str, object] | None = None,
+        params: Mapping[str, Any] | None = None,
         *,
         page_size: int = 100,
         results_key: str = "results",
@@ -210,7 +210,7 @@ class ResearchCloudClient:
         Used by all list-style service methods so pagination handling (offset advancement and
         "next" detection) lives in one place rather than being duplicated per service.
         """
-        base_params: dict[str, object] = dict(params or {})
+        base_params: dict[str, Any] = dict(params or {})
         base_params.setdefault("limit", page_size)
         offset = int(base_params.get("offset", 0))
 

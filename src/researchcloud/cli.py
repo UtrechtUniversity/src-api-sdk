@@ -6,6 +6,7 @@ import json
 import os
 import sys
 from pathlib import Path
+from typing import Any
 
 import yaml
 from dotenv import load_dotenv
@@ -21,15 +22,15 @@ def pretty(data) -> None:
 
 def _normalize_parameter_map(raw_parameters: object, source_description: str) -> dict[str, str]:
     if not isinstance(raw_parameters, dict):
-        raise ValueError(
+        raise TypeError(
             f"Optional parameters from {source_description} must be a JSON/YAML object with key/value pairs."
         )
     normalized: dict[str, str] = {}
     for raw_key, raw_value in raw_parameters.items():
         if not isinstance(raw_key, str) or not raw_key.strip():
-            raise ValueError(f"Optional parameter keys from {source_description} must be non-empty strings.")
+            raise TypeError(f"Optional parameter keys from {source_description} must be non-empty strings.")
         if not isinstance(raw_value, str):
-            raise ValueError(
+            raise TypeError(
                 f"Optional parameter {raw_key!r} from {source_description} must have a string value "
                 "(ResearchCloud optional parameters only support strings)."
             )
@@ -278,9 +279,9 @@ async def create_workspace(
     end_time: str | None = None,
     host_name: str | None = None,
     network_name_hint: str | None = None,
-    storage_ids: list[str] | None = None,
-    network_ids: list[str] | None = None,
-    ip_ids: list[str] | None = None,
+    storage_ids: list[str | dict[Any, Any]] | None= None,
+    network_ids: list[str | dict[Any, Any]] | None = None,
+    ip_ids: list[str | dict[Any, Any]] | None = None,
     dataset_names: list[str] | None = None,
     dataset_ids: list[str] | None = None,
     dry_run: bool = False,
