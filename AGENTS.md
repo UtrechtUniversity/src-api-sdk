@@ -12,4 +12,6 @@ Prefer using standard libraries (not third-party dependencies) over writing own 
 
 Tests must not hit live endpoints; use mocks instead.
 
-Lint with `ruff check src tests`. Use `mypy ` for type checking.
+- Lint with `ruff check src tests`.
+- `mypy` for type checking.
+- `pytest` for tests.
