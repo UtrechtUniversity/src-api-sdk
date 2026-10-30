@@ -1,14 +1,23 @@
-A simple Python SDK and CLI for SURF ResearchCloud.
+# A simple Python SDK and CLI for SURF ResearchCloud.
 
+- Install as a package in your venv from GitHub with `pip install git+`, or locally with `pip install -e .`
 - Import the package from [src/researchcloud/](/Users/3060845/Code/uu/src/api_explorations/src/researchcloud).
-- Use [cli.py](/Users/3060845/Code/uu/src/api_explorations/src/researchcloud/cli.py) as the CLI module, or the installed `researchcloud` command.
-- Install as a package via [pyproject.toml](/Users/3060845/Code/uu/src/api_explorations/pyproject.toml).
+
+## CLI
+
+In a venv with this pacakge installed, use the `researchcloud` command to interact with the ResearchCloud API. For example:
+
+`researchcloud get-application-offerings --dry-run --by-owner --co "My CO"`
+
+See `researchcloud --help` for other commands.
+
+### Note on application types
+
+For the SRC API, workspaces, catalog items, networks, etc. are all "application offerings". When using `get-application-offerings`, omitting `--type` means that all application
+types are included. Use `--type` when you want to restrict the results to one application type (e.g. `workspace`, `network`, ...).
+
+## Contributing
+
 - Run the linter with `.venv/bin/ruff check .`.
+- Run tests with `pytest`
 
-For `get-application-offerings`, omitting `--type` means that all application
-types (workspace, network, ...) are included. Use `--type` when you want to restrict the results to one
-application type.
-
-Use `get-workspace-status --id <id>` to quickly print a workspace's current
-status, and `pause-workspace --id <id>` / `resume-workspace --id <id>` to
-pause or resume a workspace. All three support `--dry-run`.
